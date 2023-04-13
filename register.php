@@ -33,18 +33,39 @@ if (isset($_POST['register'])) {
     }
 
     if (count($errors) == 0) {    
-    // generate a random salt
-    $salt = openssl_random_pseudo_bytes(32);
+      
+      // generate a random salt
+      $salt = openssl_random_pseudo_bytes(32);
+      
+      // encrypt the password using AES-256-CBC algorithm
+      $encrypted_password = openssl_encrypt($password_2, 'aes-256-cbc', $salt);
+      
+      // hash the encrypted password using SHA-256 algorithm
+      $hashed_password = hash('sha256', $encrypted_password);
+      
+      // prepare the SQL statement
+      $sql = "INSERT INTO users (username, email, password, salt) VALUES ('$username', '$email', '$hashed_password', '$salt')";
+      
+      // execute the statement
+      if(mysql_query($sql, $db)) {
+          // registration successful
+          echo "Registration successful";
+      } else {
+          // registration failed
+          echo "Registration failed";
+      }
+    // // generate a random salt
+    // $salt = openssl_random_pseudo_bytes(32);
     
-    // encrypt the password using AES-256-CBC algorithm
-    $encrypted_password = openssl_encrypt($password_2, 'aes-256-cbc', $salt);
+    // // encrypt the password using AES-256-CBC algorithm
+    // $encrypted_password = openssl_encrypt($password_2, 'aes-256-cbc', $salt);
     
-    // hash the encrypted password using SHA-256 algorithm
-    $hashed_password = hash('sha256', $encrypted_password);
+    // // hash the encrypted password using SHA-256 algorithm
+    // $hashed_password = hash('sha256', $encrypted_password);
 
-    $query = "INSERT INTO users (username, email, password,salt) VALUES ('$username', '$email', '$password','$salt')";
+    // $query = "INSERT INTO users (username, email, password,salt) VALUES ('$username', '$email', '$password','$salt')";
     
-    mysqli_query($db, $query);
+    // mysqli_query($db, $query);
     $_SESSION['username'] = $username;
     $_SESSION['success'] = "You are now logged in";
     header('location: index.php');
