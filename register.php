@@ -80,14 +80,15 @@ if (isset($_POST['register'])) {
     </head>
     <body>
       <h1>Register</h1>
-      <form method="post" action="register.php">     
+      <form method="post" action="register.php">
+        
         <div>
           <label>Username</label>
-          <input type="text" name="username" value="<?php if(isset($username)) echo $username; else echo ''; ?>">
+          <input type="text" name="username" value="<?php echo $username; ?>">
         </div>
         <div>
           <label>Email</label>
-          <input type="email" name="email" value="<?php if(isset($email)) echo $email; else echo ''; ?>">
+          <input type="email" name="email" value="<?php echo $email; ?>">
         </div>
         <div>
           <label>Password</label>
@@ -100,6 +101,6 @@ if (isset($_POST['register'])) {
         <div>
           <button type="submit" name="register">Register</button>
         </div>
-   </form>
+      </form>
     </body>
     </html>
