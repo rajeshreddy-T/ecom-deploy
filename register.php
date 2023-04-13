@@ -47,7 +47,7 @@ if (isset($_POST['register'])) {
       $sql = "INSERT INTO users (username, email, password, salt) VALUES ('$username', '$email', '$hashed_password', '$salt')";
       
       // execute the statement
-      if(mysql_query($sql, $db)) {
+      if(mysqli_query($sql, $db)) {
           // registration successful
           echo "Registration successful";
       } else {
