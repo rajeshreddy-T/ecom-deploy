@@ -33,7 +33,7 @@ if (isset($_POST['register'])) {
     }
 
     if (count($errors) == 0) {
-    $password = $password_2;
+    $password = md5($password_2);
     $query = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', '$password')";
     mysqli_query($db, $query);
     $_SESSION['username'] = $username;
