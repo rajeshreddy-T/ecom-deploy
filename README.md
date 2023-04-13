@@ -39,3 +39,4 @@ This is a simple ecommerce website with plain php. It has a simple admin panel w
 4. start writing your code on login.php and register.php files to beautify the UI
 
 # ecom-deploy
+# ecom-deploy

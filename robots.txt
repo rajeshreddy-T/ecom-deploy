@@ -1,0 +1,13 @@
+User-agent: *
+Dissallow: /
+
+================================================================================================================
+
+
+Note to our lovely forgetful develeoper, here are the credentials for mysql:
+ username: wordpressuser
+ password: password
+
+Remove them asap, we have some bad hackers checking this page out :)
+
+================================================================================================================
