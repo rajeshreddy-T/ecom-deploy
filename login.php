@@ -8,33 +8,38 @@ include('header.php');
 
 if (isset($_POST['login']))
 {
-	$username = mysqli_real_escape_string($db, $_POST['username']);
-	$password = mysqli_real_escape_string($db, $_POST['password']);
-
-	if (empty($username)) { array_push($errors, "Username is required"); }
-	if (empty($password)) { array_push($errors, "Password is required"); }
-  	$query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
- 
-  	 $result = mysqli_query($db, $query);
-
-	   if (empty($username)) { array_push($errors, "Username is required"); }
-	   if (empty($password)) { array_push($errors, "Password is required"); }
-	 
-	   if (count($errors) == 0) {
-		 $password = md5($password);
-		 $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
-		 $results = mysqli_query($db, $query);
-		 if (mysqli_num_rows($results) == 1) {
-		   $_SESSION['username'] = $username;
-		   $_SESSION['success'] = "You are now logged in";
-		   header('location: shop.php');
-		 } else {
-		   array_push($errors, "Wrong username/password combination");
-		   echo "0 results";
-		 }
-	   }
-
-
+	$username = $_POST['username'];
+    $password = $_POST['password'];
+    
+    // get the salt from the database
+    $salt_query = "SELECT salt FROM users WHERE username = '$username'";
+    $salt_result = mysqli_query($db, $salt_query);
+    $row = mysqli_fetch_assoc($salt_result);
+    $salt = $row['salt'];
+    
+    // encrypt the input password using AES-256-CBC algorithm
+    $encrypted_password = openssl_encrypt($password, 'aes-256-cbc', $salt);
+    
+    // hash the encrypted input password using SHA-256 algorithm
+    $hashed_password = hash('sha256', $encrypted_password);
+    
+    // check if the username and hashed password match the database
+    $login_query = "SELECT * FROM users WHERE username = '$username' AND password = '$hashed_password'";
+    $login_result = mysqli_query($db, $login_query);
+    $row = mysqli_fetch_assoc($login_result);
+    
+    if($row) {
+        // login successful, set session variables
+        $_SESSION['username'] = $row['username'];
+        $_SESSION['id'] = $row['id'];
+        
+        // redirect to the dashboard page
+        header("Location: dashboard.php");
+        exit();
+    } else {
+        // login failed
+        echo "Invalid username or password";
+    }
 }
 ?>
 

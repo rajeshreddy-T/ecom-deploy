@@ -1,9 +1,12 @@
-CREATE TABLE users (
+CREATE OR REPLACE TABLE users (
   id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(50) NOT NULL,
   email VARCHAR(100) NOT NULL,
-  password VARCHAR(255) NOT NULL
+  password VARCHAR(255) NOT NULL  
 );
+
+
+
 
 CREATE TABLE products (
   id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -28,3 +31,8 @@ CREATE TABLE order_items (
   FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
   FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
+
+
+-- drop the foreign key constraint
+ALTER TABLE orders DROP FOREIGN KEY orders_ibfk_1;
+ALTER TABLE users ADD salt VARCHAR(255) NOT NULL;
