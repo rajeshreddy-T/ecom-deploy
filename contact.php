@@ -4,7 +4,8 @@ include('config.php');
 include('header.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $name = $_POST["name"];
+  $name = stripslashes($_POST["name"]);
+
   echo "Hey, $name! , we will be giving you a call shortly!";
 }
 ?>
