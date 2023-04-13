@@ -47,7 +47,7 @@ if (isset($_POST['register'])) {
       $sql = "INSERT INTO users (username, email, password, salt) VALUES ('$username', '$email', '$hashed_password', '$salt')";
       
       // execute the statement
-      if(mysqli_query($sql, $db)) {
+      if(mysqli_query($db, $sql)) {
           // registration successful
           echo "Registration successful";
       } else {
@@ -80,15 +80,14 @@ if (isset($_POST['register'])) {
     </head>
     <body>
       <h1>Register</h1>
-      <form method="post" action="register.php">
-        <?php include('errors.php'); ?>
+      <form method="post" action="register.php">     
         <div>
           <label>Username</label>
-          <input type="text" name="username" value="<?php echo $username; ?>">
+          <input type="text" name="username" value="<?php if(isset($username)) echo $username; else echo ''; ?>">
         </div>
         <div>
           <label>Email</label>
-          <input type="email" name="email" value="<?php echo $email; ?>">
+          <input type="email" name="email" value="<?php if(isset($email)) echo $email; else echo ''; ?>">
         </div>
         <div>
           <label>Password</label>
@@ -101,6 +100,6 @@ if (isset($_POST['register'])) {
         <div>
           <button type="submit" name="register">Register</button>
         </div>
-      </form>
+   </form>
     </body>
     </html>
